@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const db = new Database(path.join(__dirname, '../../database.db'))
+const db = new Database(path.join(__dirname, '../db/database.db'))
 
 db.pragma('journal_mode = WAL')
 db.pragma('foreign_keys = ON')
@@ -14,7 +14,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     tipo TEXT NOT NULL CHECK(tipo IN ('diacono', 'iop')),
-    contato TEXT
+    contato TEXT UNIQUE
   );
 
   CREATE TABLE IF NOT EXISTS setores (

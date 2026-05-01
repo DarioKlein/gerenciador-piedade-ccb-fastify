@@ -1,19 +1,11 @@
-import Fastify from 'fastify'
+import { env } from 'process'
+import { app } from './app'
 
-const app = Fastify({ logger: true })
-
-app.get('/health', async () => {
-  return { status: 'ok' }
-})
-
-const start = async () => {
-  try {
-    await app.listen({ port: 3000, host: 'localhost' })
-    console.log('🚀 Server running on http://localhost:3000')
-  } catch (err) {
-    app.log.error(err)
-    process.exit(1)
-  }
-}
-
-start()
+app
+  .listen({
+    host: 'RENDER' in process.env ? '0.0.0.0' : 'localhost',
+    port: env.PORT ? Number(env.PORT) : 3000,
+  })
+  .then(() => {
+    console.log('HTTP Server Running')
+  })
